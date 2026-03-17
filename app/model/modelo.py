@@ -6,7 +6,7 @@ class ModeloModel(Base):
     __tablename__ = "modelo"
 
     id_modelo: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=False)
-    id_combustivel: Mapped[int] = mapped_column(Integer, ForeignKey('combustivel.id_combustivel', ondelete="CASCADE"), unique=True)
+    id_combustivel: Mapped[int] = mapped_column(Integer, ForeignKey('combustivel.id_combustivel', ondelete="CASCADE"), unique=True, nullable=False)
 
     nome_modelo: Mapped[str] = mapped_column(VARCHAR(45), nullable=False)
     cor: Mapped[str] = mapped_column(VARCHAR(45), nullable=False)
