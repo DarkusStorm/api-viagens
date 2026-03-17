@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from app.database import Base, engine
 from app.route.viagem import viagem
 
-# Criar todas as entidades no banco de dados
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
