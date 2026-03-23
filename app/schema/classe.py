@@ -11,7 +11,7 @@ class ClasseSchema (BaseModel):
     class Config:
         from_attributes = True
 
-class ClassUpdateSchema (BaseModel):
+class ClasseUpdateSchema (BaseModel):
     id_classe: Optional[Integer]
 
     nome_classe: Optional[VARCHAR]
