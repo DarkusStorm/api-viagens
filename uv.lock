@@ -41,6 +41,7 @@ dependencies = [
     { name = "pymysql" },
     { name = "python-dotenv" },
     { name = "sqlalchemy" },
+    { name = "uvicorn" },
 ]
 
 [package.metadata]
@@ -49,6 +50,7 @@ requires-dist = [
     { name = "pymysql", specifier = ">=1.1.2" },
     { name = "python-dotenv", specifier = ">=1.2.2" },
     { name = "sqlalchemy", specifier = ">=2.0.48" },
+    { name = "uvicorn", specifier = ">=0.42.0" },
 ]
 
 [[package]]
