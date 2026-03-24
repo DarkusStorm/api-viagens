@@ -4,7 +4,7 @@ from app.database import get_db
 from app.model.pagamento import PagamentoModel
 from app.schema.pagamento import PagamentoSchema, PagamentoUpdateSchema
 
-pagamento = APIRouter()
+pagamento = APIRouter(prefix="/pagamento")
 
 @pagamento.post("/")
 async def criar_pagamento(dados: PagamentoSchema, db: Session = Depends(get_db)):

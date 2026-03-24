@@ -4,7 +4,7 @@ from app.database import get_db
 from app.model.veiculo import VeiculoModel
 from app.schema.veiculo import VeiculoSchema, VeiculoUpdateSchema
 
-veiculo = APIRouter()
+veiculo = APIRouter(prefix="/veiculo")
 
 @veiculo.post("/")
 async def criar_veiculo(dados: VeiculoSchema, db: Session = Depends(get_db)):

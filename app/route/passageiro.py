@@ -4,7 +4,7 @@ from app.database import get_db
 from app.model.passageiro import PassageiroModel
 from app.schema.passageiro import PassageiroSchema, PassageiroUpdateSchema
 
-passageiro = APIRouter()
+passageiro = APIRouter(prefix="/passageiro")
 
 @passageiro.post("/")
 async def criar_passageiro(dados: PassageiroSchema, db: Session = Depends(get_db)):

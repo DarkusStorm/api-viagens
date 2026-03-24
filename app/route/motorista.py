@@ -4,7 +4,7 @@ from app.database import get_db
 from app.model.motorista import MotoristaModel
 from app.schema.motorista import MotoristaSchema, MotoristaUpdateSchema
 
-motorista = APIRouter()
+motorista = APIRouter(prefix="/motorista")
 
 @motorista.post("/")
 async def criar_motorista(dados: MotoristaSchema, db: Session = Depends(get_db)):

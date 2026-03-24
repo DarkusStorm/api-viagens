@@ -4,7 +4,7 @@ from app.database import get_db
 from app.model.modelo import ModeloModel
 from app.schema.modelo import ModeloSchema, ModeloUpdateSchema
 
-modelo = APIRouter()
+modelo = APIRouter(prefix="/modelo")
 
 @modelo.post("/")
 async def criar_modelo(dados: ModeloSchema, db: Session = Depends(get_db)):
