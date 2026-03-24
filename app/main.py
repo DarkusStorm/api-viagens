@@ -13,6 +13,7 @@ from app.route.passageiro import passageiro
 from app.route.servico import servico
 from app.route.usuario import usuario
 from app.route.veiculo import veiculo
+from app.route.viagem import viagem
 
 Base.metadata.create_all(bind=engine)
 
@@ -31,6 +32,7 @@ app.include_router(passageiro)
 app.include_router(servico)
 app.include_router(usuario)
 app.include_router(veiculo)
+app.include_router(viagem)
 
 @app.get("/")
 async def health_check():
