@@ -7,7 +7,7 @@ from app.database import Base
 class CorridaModel(Base):
     __tablename__ = "corrida"
 
-    id_corrida: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    id_corrida: Mapped[int] = mapped_column(BigInteger, primary_key=True, index=True, autoincrement=True)
     id_passageiro: Mapped[int] = mapped_column(BigInteger, ForeignKey('passageiro.id_passageiro', ondelete="CASCADE"), unique=True, nullable=False)
     id_motorista: Mapped[int] = mapped_column(BigInteger, ForeignKey('motorista.id_motorista', ondelete="CASCADE"), unique=True, nullable=False)
     id_servico: Mapped[int] = mapped_column(Integer, ForeignKey('servico.id_servico', ondelete="CASCADE"), unique=True, nullable=False)

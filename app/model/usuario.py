@@ -7,7 +7,7 @@ from app.database import Base
 class UsuarioModel(Base):
     __tablename__ = "usuario"
 
-    id_usuario: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    id_usuario: Mapped[int] = mapped_column(BigInteger, primary_key=True, index=True, autoincrement=True)
     nome: Mapped[str] = mapped_column(TEXT, nullable=False)
     cpf: Mapped[str] = mapped_column(CHAR(11), unique=True, nullable=False)
     idade: Mapped[int] = mapped_column(SmallInteger, nullable=False)

@@ -5,7 +5,7 @@ from app.database import Base
 class ViagemModel(Base):
     __tablename__ = "viagem"
 
-    id_viagem: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    id_viagem: Mapped[int] = mapped_column(BigInteger, primary_key=True, index=True, autoincrement=True)
     id_avaliacao: Mapped[int] = mapped_column(BigInteger, ForeignKey('avaliacao.id_avaliacao', ondelete="CASCADE"), unique=True, nullable=False)
     id_corrida: Mapped[int] = mapped_column(BigInteger, ForeignKey('corrida.id_corrida', ondelete="CASCADE"), unique=True, nullable=False)
     id_modelo: Mapped[int] = mapped_column(Integer, ForeignKey('modelo.id_modelo', ondelete="CASCADE"), unique=True, nullable=False)
