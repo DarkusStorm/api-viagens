@@ -4,7 +4,7 @@ from app.database import get_db
 from app.model.corrida import CorridaModel
 from app.schema.corrida import CorridaSchema, CorridaUpdateSchema
 
-corrida = APIRouter(prefix="/corrida")
+corrida = APIRouter()
 
 @corrida.post("/")
 async def criar_corrida(dados: CorridaSchema, db: Session = Depends(get_db)):

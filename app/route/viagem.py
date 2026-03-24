@@ -4,7 +4,7 @@ from app.database import get_db
 from app.model.viagem import ViagemModel
 from app.schema.viagem import ViagemSchema, ViagemUpdateSchema
 
-viagem = APIRouter(prefix="/viagem")
+viagem = APIRouter()
 
 @viagem.post("/")
 async def criar_viagem(dados: ViagemSchema, db: Session = Depends(get_db)):

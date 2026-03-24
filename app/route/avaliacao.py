@@ -4,7 +4,7 @@ from app.database import get_db
 from app.model.avaliacao import AvaliacaoModel
 from app.schema.avaliacao import AvaliacaoSchema, AvaliacaoUpdateSchema
 
-avaliacao = APIRouter(prefix="/avaliacao")
+avaliacao = APIRouter()
 
 @avaliacao.post("/")
 async def criar_avaliacao(dados: AvaliacaoSchema, db: Session = Depends(get_db)):

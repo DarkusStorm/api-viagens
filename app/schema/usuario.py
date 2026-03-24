@@ -1,29 +1,29 @@
 from typing import Optional
 from pydantic import BaseModel
-from sqlalchemy import TEXT, CHAR, VARCHAR, BigInteger, SmallInteger, Date
+from datetime import date
 
 class UsuarioSchema(BaseModel):
-    id_usuario: BigInteger
-    nome: CHAR
-    cpf: CHAR
-    idade: SmallInteger
-    data_nascimento: Date
-    senha: CHAR
-    email: TEXT
-    usuario: VARCHAR
+    id_usuario: int
+    nome: str
+    cpf: str
+    idade: int
+    data_nascimento: date
+    senha: str
+    email: str
+    usuario: str
 
     class Config:
         from_attributes = True
 
 class UsuarioUpdateSchema(BaseModel):
-    id_usuario: Optional[BigInteger]
-    nome: Optional[CHAR]
-    cpf: Optional[CHAR]
-    idade: Optional[SmallInteger]
-    data_nascimento: Optional[Date]
-    senha: Optional[CHAR]
-    email: Optional[TEXT]
-    usuario: Optional[VARCHAR]
+    id_usuario: Optional[int]
+    nome: Optional[str]
+    cpf: Optional[str]
+    idade: Optional[int]
+    data_nascimento: Optional[date]
+    senha: Optional[str]
+    email: Optional[str]
+    usuario: Optional[str]
 
     class Config:
         from_attributes = True

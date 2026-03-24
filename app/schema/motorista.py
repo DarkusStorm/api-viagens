@@ -1,23 +1,22 @@
 from typing import Optional
 from pydantic import BaseModel
-from sqlalchemy import BigInteger, Float
 
 class MotoristaSchema(BaseModel):
-    id_motorista: BigInteger
-    id_usuario: BigInteger
+    id_motorista: int
+    id_usuario: int
 
-    media_avaliacao: Optional[Float]
-    cnh: BigInteger
+    media_avaliacao: Optional[float]
+    cnh: int
 
     class Config:
         from_attributes = True
 
 class MotoristaUpdateSchema(BaseModel):
-    id_motorista: Optional[BigInteger]
-    id_usuario: Optional[BigInteger]
+    id_motorista: Optional[int]
+    id_usuario: Optional[int]
 
-    media_avaliacao: Optional[Float]
-    cnh: Optional[BigInteger]
+    media_avaliacao: Optional[float]
+    cnh: Optional[int]
 
     class Config:
         from_attributes = True

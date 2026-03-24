@@ -3,7 +3,7 @@ name = "api-viagens"
 version = "0.1.0"
 description = "API de app de viagens com FastAPI"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.14.3"
 dependencies = [
     "fastapi[standard]>=0.135.1",
     "pymysql>=1.1.2",

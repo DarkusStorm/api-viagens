@@ -4,7 +4,7 @@ from app.database import get_db
 from app.model.combustivel import CombustivelModel
 from app.schema.combustivel import CombustivelSchema, CombustivelUpdateSchema
 
-combustivel = APIRouter(prefix="/combustivel")
+combustivel = APIRouter()
 
 @combustivel.post("/")
 async def criar_combustivel(dados: CombustivelSchema, db: Session = Depends(get_db)):

@@ -4,7 +4,7 @@ from app.database import get_db
 from app.model.usuario import UsuarioModel
 from app.schema.usuario import UsuarioSchema, UsuarioUpdateSchema
 
-usuario = APIRouter(prefix="/usuario")
+usuario = APIRouter()
 
 @usuario.post("/")
 async def criar_usuario(dados: UsuarioSchema, db: Session = Depends(get_db)):

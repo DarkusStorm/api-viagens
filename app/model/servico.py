@@ -1,6 +1,5 @@
 from sqlalchemy import ForeignKey, Integer, VARCHAR
 from sqlalchemy.orm import Mapped, mapped_column
-
 from app.database import Base
 
 class ServicoModel(Base):
