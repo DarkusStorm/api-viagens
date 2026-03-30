@@ -18,9 +18,21 @@ async def criar_pagamento(dados: PagamentoSchema, db: Session = Depends(get_db))
 async def listar_pagamentos(db: Session = Depends(get_db)):
     return db.query(PagamentoModel).all()
 
+@pagamento.get("/pagamentos/{id}")
+async def buscar_pagamento(id: int, db: Session = Depends(get_db)):
+    pagamento = db.query(PagamentoModel).filter(PagamentoModel.id_pagamento == id).first()
+
+    if not pagamento:
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND,
+            detail = f"Pagamento com ID {id} não encontrado."
+        )
+    
+    return pagamento
+
 @pagamento.delete("/pagamentos/{id}/delete")
 async def deletar_pagamento(id: int, db: Session = Depends(get_db)):
-    pagamento = db.query(PagamentoModel).filter(PagamentoModel.id == id).first()
+    pagamento = db.query(PagamentoModel).filter(PagamentoModel.id_pagamento == id).first()
 
     if not pagamento:
         raise HTTPException(
@@ -35,9 +47,9 @@ async def deletar_pagamento(id: int, db: Session = Depends(get_db)):
         "pagamentos": db.query(PagamentoModel).all()
     }
 
-@pagamento.put("/pagamento/{id}/update")
+@pagamento.put("/pagamentos/{id}/update")
 async def atualizar_pagamento(id: int, dados: PagamentoUpdateSchema, db: Session = Depends(get_db)):
-    pagamento = db.query(PagamentoModel).filter(PagamentoModel.id == id).first()
+    pagamento = db.query(PagamentoModel).filter(PagamentoModel.id_pagamento == id).first()
 
     if not pagamento:
         raise HTTPException(

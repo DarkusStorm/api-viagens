@@ -16,7 +16,19 @@ async def criar_motorista_veiculo(dados: MotoristaVeiculoSchema, db: Session = D
 
 @motorista_veiculo.get("/motoristas_veiculo")
 async def listar_motoristas_veiculo(db: Session = Depends(get_db)):
-    return db.query(MotoristaVeiculoModel).filter(MotoristaVeiculoModel.id == id).first()
+    return db.query(MotoristaVeiculoModel).all()
+
+@motorista_veiculo.get("/motoristas_veiculo/{id}")
+async def buscar_motorista_veiculo(id_motorista: int, id_veiculo: int, db: Session = Depends(get_db)):
+    motorista_veiculo = db.query(MotoristaVeiculoModel).filter(MotoristaVeiculoModel.id_motorista == id_motorista and MotoristaVeiculoModel.id_veiculo == id_veiculo).first()
+
+    if not motorista_veiculo:
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND,
+            detail = f"Motorista-Veículo com ID de Motorista {id_motorista} e ID de Veículo {id_veiculo} não encontrado."
+        )
+
+    return motorista_veiculo
 
 @motorista_veiculo.delete("/motoristas_veiculo/{id_motorista}/{id_veiculo}/delete")
 async def deletar_motorista_veiculo(id_motorista: int, id_veiculo: int, db: Session = Depends(get_db)):

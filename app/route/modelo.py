@@ -18,9 +18,21 @@ async def criar_modelo(dados: ModeloSchema, db: Session = Depends(get_db)):
 async def listar_modelos(db: Session = Depends(get_db)):
     return db.query(ModeloModel).all()
 
+@modelo.get("/modelos/{id}")
+async def buscar_modelo(id: int, db: Session = Depends(get_db)):
+    modelo = db.query(ModeloModel).filter(ModeloModel.id_modelo == id).first()
+
+    if not modelo:
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND,
+            detail = f"Modelo com ID {id} não encontrado."
+        )
+    
+    return modelo
+
 @modelo.delete("/modelos/{id}/delete")
 async def deletar_modelo(id: int, db: Session = Depends(get_db)):
-    modelo = db.query(ModeloModel).filter(ModeloModel.id == id).first()
+    modelo = db.query(ModeloModel).filter(ModeloModel.id_modelo == id).first()
 
     if not modelo:
         raise HTTPException(
@@ -37,7 +49,7 @@ async def deletar_modelo(id: int, db: Session = Depends(get_db)):
 
 @modelo.put("/modelos/{id}/update")
 async def atualizar_modelo(id: int, dados: ModeloUpdateSchema, db: Session = Depends(get_db)):
-    modelo = db.query(ModeloModel).filter(ModeloModel.id == id).first()
+    modelo = db.query(ModeloModel).filter(ModeloModel.id_modelo == id).first()
 
     if not modelo:
         raise HTTPException(

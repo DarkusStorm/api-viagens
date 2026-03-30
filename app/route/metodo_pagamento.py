@@ -18,9 +18,21 @@ async def criar_metodo_pagamento(dados: MetodoPagamentoSchema, db: Session = Dep
 async def listar_metodos_pagamento(db: Session = Depends(get_db)):
     return db.query(MetodoPagamentoModel).all()
 
+@metodo_pagamento.get("/metodos_pagamento/{id}")
+async def buscar_metodo_pagamento(id: int, db: Session = Depends(get_db)):
+    metodo_pagamento = db.query(MetodoPagamentoModel).filter(MetodoPagamentoModel.id_metodo_pagamento == id).first()
+
+    if not metodo_pagamento:
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND,
+            detail = f"Metodo de Pagamento com ID {id} não encontrado."
+        )
+    
+    return metodo_pagamento
+
 @metodo_pagamento.delete("/metodos_pagamento/{id}/delete")
 async def deletar_metodo_pagamento(id: int, db: Session = Depends(get_db)):
-    metodo_pagamento = db.query(MetodoPagamentoModel).filter(MetodoPagamentoModel.id == id).first()
+    metodo_pagamento = db.query(MetodoPagamentoModel).filter(MetodoPagamentoModel.id_metodo_pagamento == id).first()
 
     if not metodo_pagamento:
         raise HTTPException(
@@ -37,7 +49,7 @@ async def deletar_metodo_pagamento(id: int, db: Session = Depends(get_db)):
 
 @metodo_pagamento.put("/metodos_pagamento/{id}/update")
 async def atualizar_metodo_pagamento(id: int, dados: MetodoPagamentoUpdateSchema, db: Session = Depends(get_db)):
-    metodo_pagamento = db.query(MetodoPagamentoModel).filter(MetodoPagamentoModel.id == id).first()
+    metodo_pagamento = db.query(MetodoPagamentoModel).filter(MetodoPagamentoModel.id_metodo_pagamento == id).first()
 
     if not metodo_pagamento:
         raise HTTPException(

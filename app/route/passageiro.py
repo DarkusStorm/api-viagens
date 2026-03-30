@@ -18,9 +18,21 @@ async def criar_passageiro(dados: PassageiroSchema, db: Session = Depends(get_db
 async def listar_passageiros(db: Session = Depends(get_db)):
     return db.query(PassageiroModel).all()
 
+@passageiro.get("/passageiros/{id}")
+async def buscar_passageiro(id: int, db: Session = Depends(get_db)):
+    passageiro = db.query(PassageiroModel).filter(PassageiroModel.id_passageiro == id).first()
+
+    if not passageiro:
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND,
+            detail = f"Passageiro com ID {id} não encontrado."
+        )
+    
+    return passageiro
+
 @passageiro.delete("/passageiros/{id}/delete")
 async def deletar_passageiro(id: int, db: Session = Depends(get_db)):
-    passageiro = db.query(PassageiroModel).filter(PassageiroModel.id == id).first()
+    passageiro = db.query(PassageiroModel).filter(PassageiroModel.id_passageiro == id).first()
 
     if not passageiro:
         raise HTTPException(
@@ -37,7 +49,7 @@ async def deletar_passageiro(id: int, db: Session = Depends(get_db)):
 
 @passageiro.put("/passageiros/{id}/update")
 async def atualizar_passageiro(id: int, dados: PassageiroUpdateSchema, db: Session = Depends(get_db)):
-    passageiro = db.query(PassageiroModel).filter(PassageiroModel.id == id).first()
+    passageiro = db.query(PassageiroModel).filter(PassageiroModel.id_passageiro == id).first()
 
     if not passageiro:
         raise HTTPException(

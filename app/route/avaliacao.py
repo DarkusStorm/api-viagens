@@ -18,9 +18,22 @@ async def criar_avaliacao(dados: AvaliacaoSchema, db: Session = Depends(get_db))
 async def listar_avaliacoes(db: Session = Depends(get_db)):
     return db.query(AvaliacaoModel).all()
 
+@avaliacao.get("/avaliacoes/{id}")
+async def buscar_avaliacao(id: int, db: Session = Depends(get_db)):
+    avaliacao = db.query(AvaliacaoModel).filter(AvaliacaoModel.id_avaliacao == id).first()
+
+    if not avaliacao:
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND,
+            detail = f"Avaliação com ID {id} não encontrada."
+        )
+    
+    return avaliacao
+
+
 @avaliacao.delete("/avaliacoes/{id}/delete")
 async def deletar_avaliacao(id: int, db: Session = Depends(get_db)):
-    avaliacao = db.query(AvaliacaoModel).filter(AvaliacaoModel.id == id).first()
+    avaliacao = db.query(AvaliacaoModel).filter(AvaliacaoModel.id_avaliacao == id).first()
 
     if not avaliacao:
         raise HTTPException(
@@ -37,7 +50,7 @@ async def deletar_avaliacao(id: int, db: Session = Depends(get_db)):
 
 @avaliacao.put("/avaliacoes/{id}/update")
 async def atualizar_avaliacao(id: int, dados: AvaliacaoUpdateSchema, db: Session = Depends(get_db)):
-    avaliacao = db.query(AvaliacaoModel).filter(AvaliacaoModel.id == id).first()
+    avaliacao = db.query(AvaliacaoModel).filter(AvaliacaoModel.id_avaliacao == id).first()
 
     if not avaliacao:
         raise HTTPException(

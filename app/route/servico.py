@@ -18,9 +18,21 @@ async def criar_servico(dados: ServicoSchema, db: Session = Depends(get_db)):
 async def listar_servicos(db: Session = Depends(get_db)):
     return db.query(ServicoModel).all()
 
+@servico.get("/servicos/{id}")
+async def buscar_servico(id: int, db: Session = Depends(get_db)):
+    servico = db.query(ServicoModel).filter(ServicoModel.id_servico == id).first()
+
+    if not servico:
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND,
+            detail = f"Serviço com ID {id} não encontrado."
+        )
+    
+    return servico
+
 @servico.delete("/servicos/{id}/delete")
 async def deletar_servico(id: int, db: Session = Depends(get_db)):
-    servico = db.query(ServicoModel).filter(ServicoModel.id == id).first()
+    servico = db.query(ServicoModel).filter(ServicoModel.id_servico == id).first()
 
     if not servico:
         raise HTTPException(
@@ -37,7 +49,7 @@ async def deletar_servico(id: int, db: Session = Depends(get_db)):
 
 @servico.put("/servico/{id}/update")
 async def atualizar_servico(id: int, dados: ServicoUpdateSchema, db: Session = Depends(get_db)):
-    servico = db.query(ServicoModel).filter(ServicoModel.id == id).first()
+    servico = db.query(ServicoModel).filter(ServicoModel.id_servico == id).first()
 
     if not servico:
         raise HTTPException(

@@ -18,9 +18,21 @@ async def criar_classe(dados: ClasseSchema, db: Session = Depends(get_db)):
 async def listar_classes(db: Session = Depends(get_db)):
     return db.query(ClasseModel).all()
 
-@classe.delete("/classe/{id}/delete")
+@classe.get("/classes/{id}")
+async def buscar_classe(id: int, db: Session = Depends(get_db)):
+    classe = db.query(ClasseModel).filter(ClasseModel.id_classe == id).first()
+
+    if not classe:
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND,
+            detail = f"Classe com ID {id} não encontrada."
+        )
+    
+    return classe
+
+@classe.delete("/classes/{id}/delete")
 async def deletar_classe(id: int, db: Session = Depends(get_db)):
-    classe = db.query(ClasseModel).filter(ClasseModel.id == id).first()
+    classe = db.query(ClasseModel).filter(ClasseModel.id_classe == id).first()
 
     if not classe:
         raise HTTPException(
@@ -37,7 +49,7 @@ async def deletar_classe(id: int, db: Session = Depends(get_db)):
 
 @classe.put("/classes/{id}/update")
 async def atualizar_classe(id: int, dados: ClasseUpdateSchema, db: Session = Depends(get_db)):
-    classe = db.query(ClasseModel).filter(ClasseModel.id == id).first()
+    classe = db.query(ClasseModel).filter(ClasseModel.id_classe == id).first()
 
     if not classe:
         raise HTTPException(

@@ -18,9 +18,21 @@ async def criar_veiculo(dados: VeiculoSchema, db: Session = Depends(get_db)):
 async def listar_veiculos(db: Session = Depends(get_db)):
     return db.query(VeiculoModel).all()
 
+@veiculo.get("/veiculos")
+async def buscar_veiculo(id: int, db: Session = Depends(get_db)):
+    veiculo = db.query(VeiculoModel).filter(VeiculoModel.id_veiculo == id).first()
+
+    if not veiculo:
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND,
+            detail = f"Veículo com ID {id} não encontrado."
+        )
+    
+    return veiculo
+    
 @veiculo.delete("/veiculos/{id}/delete")
 async def deletar_veiculo(id: int, db: Session = Depends(get_db)):
-    veiculo = db.query(VeiculoModel).filter(VeiculoModel.id == id).first()
+    veiculo = db.query(VeiculoModel).filter(VeiculoModel.id_veiculo == id).first()
 
     if not veiculo:
         raise HTTPException(
@@ -37,7 +49,7 @@ async def deletar_veiculo(id: int, db: Session = Depends(get_db)):
 
 @veiculo.put("/veiculos/{id}/update")
 async def atualizar_veiculo(id: int, dados: VeiculoUpdateSchema, db: Session = Depends(get_db)):
-    veiculo = db.query(VeiculoModel).filter(VeiculoModel.id == id).first()
+    veiculo = db.query(VeiculoModel).filter(VeiculoModel.id_veiculo == id).first()
 
     if not veiculo:
         raise HTTPException(

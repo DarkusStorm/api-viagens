@@ -18,6 +18,18 @@ async def criar_viagem(dados: ViagemSchema, db: Session = Depends(get_db)):
 async def listar_viagens(db: Session = Depends(get_db)):
     return db.query(ViagemModel).all()
 
+@viagem.get("/viagens/{id}")
+async def buscar_viagem(id: int, db: Session = Depends(get_db)):
+    viagem = db.query(ViagemModel).filter(ViagemModel.id == id).first()
+
+    if not viagem:
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND,
+            detail = f"Viagem com ID {id} não encontrada."
+        )
+    
+    return viagem
+
 @viagem.delete("/viagens/{id}/delete")
 async def deletar_viagem(id: int, db: Session = Depends(get_db)):
     viagem = db.query(ViagemModel).filter(ViagemModel.id == id).first()

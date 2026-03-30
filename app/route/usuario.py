@@ -18,9 +18,21 @@ async def criar_usuario(dados: UsuarioSchema, db: Session = Depends(get_db)):
 async def listar_usuarios(db: Session = Depends(get_db)):
     return db.query(UsuarioModel).all()
 
+@usuario.get("/usuarios/{id}")
+async def buscar_usuario(id: int, db: Session = Depends(get_db)):
+    usuario = db.query(UsuarioModel).filter(UsuarioModel.id_usuario == id).first()
+
+    if not usuario:
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND,
+            detail = f"Usuário com ID {id} não encontrado."
+        )
+    
+    return usuario
+
 @usuario.delete("/usuarios/{id}/delete")
 async def deletar_usuario(id: int, db: Session = Depends(get_db)):
-    usuario = db.query(UsuarioModel).filter(UsuarioModel.id == id).first()
+    usuario = db.query(UsuarioModel).filter(UsuarioModel.id_usuario == id).first()
 
     if not usuario:
         raise HTTPException(
@@ -37,7 +49,7 @@ async def deletar_usuario(id: int, db: Session = Depends(get_db)):
 
 @usuario.put("/usuarios/{id}/update")
 async def atualizar_usuario(id: int, dados: UsuarioUpdateSchema, db: Session = Depends(get_db)):
-    usuario = db.query(UsuarioModel).filter(UsuarioModel.id == id).filter()
+    usuario = db.query(UsuarioModel).filter(UsuarioModel.id_usuario == id).filter()
 
     if not usuario:
         raise HTTPException(

@@ -18,9 +18,21 @@ async def criar_combustivel(dados: CombustivelSchema, db: Session = Depends(get_
 async def listar_combustiveis(db: Session = Depends(get_db)):
     return db.query(CombustivelModel).all()
 
+@combustivel.get("/combustiveis/{id}")
+async def buscar_combustivel(id: int, db: Session = Depends(get_db)):
+    combustivel = db.query(CombustivelModel).filter(CombustivelModel.id_combustivel == id).first()
+
+    if not combustivel:
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND,
+            detail = f"Combustível com ID {id} não encontrado."
+        )
+    
+    return combustivel
+
 @combustivel.delete("/combustiveis/{id}/delete")
 async def deletar_combustivel(id: int, db: Session = Depends(get_db)):
-    combustivel = db.query(CombustivelModel).filter(CombustivelModel.id == id).first()
+    combustivel = db.query(CombustivelModel).filter(CombustivelModel.id_combustivel == id).first()
 
     if not combustivel:
         raise HTTPException(
@@ -37,7 +49,7 @@ async def deletar_combustivel(id: int, db: Session = Depends(get_db)):
     
 @combustivel.put("/combustiveis/{id}/update")
 async def atualizar_combustivel(id: int, dados: CombustivelUpdateSchema, db: Session = Depends(get_db)):
-    combustivel = db.query(CombustivelModel).filter(CombustivelModel.id == id).first()
+    combustivel = db.query(CombustivelModel).filter(CombustivelModel.id_combustivel == id).first()
 
     if not combustivel:
         raise HTTPException(

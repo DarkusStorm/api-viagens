@@ -18,9 +18,9 @@ async def criar_corrida(dados: CorridaSchema, db: Session = Depends(get_db)):
 async def listar_corridas(db: Session = Depends(get_db)):
     return db.query(CorridaModel).all()
 
-@corrida.delete("/corrida/{id}/delete")
-async def deletar_corrida(id: int, db: Session = Depends(get_db)):
-    corrida = db.query(CorridaModel).filter(CorridaModel.id == id).first()
+@corrida.get("/corridas/{id}")
+async def buscar_corrida(id: int, db: Session = Depends(get_db)):
+    corrida = db.query(CorridaModel).filter(CorridaModel.id_corrida == id).first()
 
     if not corrida:
         raise HTTPException(
@@ -28,7 +28,26 @@ async def deletar_corrida(id: int, db: Session = Depends(get_db)):
             detail = f"Corrida com ID {id} não encontrada."
         )
     
-@corrida.put("/corrida/{id}/update")
+    return corrida
+
+@corrida.delete("/corridas/{id}/delete")
+async def deletar_corrida(id: int, db: Session = Depends(get_db)):
+    corrida = db.query(CorridaModel).filter(CorridaModel.id_corrida == id).first()
+
+    if not corrida:
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND,
+            detail = f"Corrida com ID {id} não encontrada."
+        )
+    
+    db.delete(corrida)
+    db.commit()
+    return {
+        "resposta": f"Corrida com ID {id} apagado com sucesso.",
+        "corridas": db.query(CorridaModel).all()
+    }
+
+@corrida.put("/corridas/{id}/update")
 async def atualizar_corrida(id: int, dados: CorridaUpdateSchema, db: Session = Depends(get_db)):
     corrida = db.query(CorridaModel).filter(CorridaModel.id == id).first()
 
